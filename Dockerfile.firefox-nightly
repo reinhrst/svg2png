@@ -1,0 +1,9 @@
+FROM ubuntu
+ENV TZ=UTC
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN apt update && apt-get install -y software-properties-common git python3 && add-apt-repository -y ppa:ubuntu-mozilla-daily/ppa && apt-get install -y firefox-trunk && rm -rf /var/lib/apt/lists/*
+ENV FIREFOX_BIN="/usr/bin/firefox-trunk"
+RUN mkdir /app
+COPY . /app
+WORKDIR /app
+ENTRYPOINT ["python3", "main.py"]
