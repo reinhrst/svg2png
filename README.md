@@ -1,15 +1,15 @@
-#SVG2PNG
+# SVG2PNG
 
 A tool to convert SVG (or any other component that a browser can show) into a PNG.
 Uses FireFox to do all the hard work.
 
-Installation:
+### Installation
 ```
 git clone https://github.com/reinhrst/svg2png
 ```
 Alternatively, just download the `main.py` file from this repo.
 
-The path to firefox is set up for MacOs; if you have something else, you need to change this in `main.py`.
+The path to FireFox is set up for MacOs; if you have something else, you need to change this in `main.py`.
 
 This tool uses Firefox (though Marionette scripting) to convert SVG files to PNG.
 There are other tools out there to do a conversion, however in my experience, most tools have pretty lousy SVG support, especially when the going gets tough.
@@ -23,10 +23,10 @@ This means that the size of the PNG is the size is pixels of the SVG/HTML elemen
 If you run Firefox non-headless on a retina display, the output PNG is 2 pixels for each `px` size of the element.
 So best only use non-headless for debugging.
 
-Usage:
+### Usage
 ```
 python main.py -w 1000px -h auto "file://$(pwd)/example.svg" /tmp/out.png
 ```
 
 Sets the width css property to `1000px`, and the height to `auto`.
-You can add arbitrary javascript by using the `--javascript` commandline option.
+You can add arbitrary JavaScript by using the `--javascript` commandline option.
