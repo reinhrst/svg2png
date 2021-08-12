@@ -3,6 +3,8 @@
 A tool to print a web page to PDF
 Uses FireFox to do all the hard work.
 
+Read [this blog post](https://blog.claude.nl/tech/converting-svg-into-png/) for the process, and more info.
+
 ### Note - known bug
 There is [a known issue on the FireFox side](https://github.com/mozilla/geckodriver/issues/1905) that printing of PDFs that are more than 500kB large will result in an error:
 ```
@@ -22,7 +24,6 @@ __main__.MarionetteException: ('MarionetteException: %r', {'error': 'unknown err
 
 There [seems to be a fix that should be included in Firefox 93](https://bugzilla.mozilla.org/show_bug.cgi?id=1719124), which is due for release [in October 2021](https://wiki.mozilla.org/Release_Management/Calendar).
 If you cannot wait, use `-f Dockerfile.firefox-nightly` in your `docker build` command.
-
 
 ### Installation
 ```
