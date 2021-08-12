@@ -2,6 +2,7 @@ import argparse
 import base64
 import json
 import logging
+import os
 import pathlib
 import re
 import socket
@@ -14,9 +15,11 @@ logger = logging.getLogger()
 
 CODE_COMMAND = 0
 CODE_RESPONSE = 1
-FIREFOX_BIN = "/Applications/Firefox.app/Contents/MacOS/firefox-bin"
+FIREFOX_BIN = os.environ.get(
+    "FIREFOX_BIN", "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
 MARIONETTE_PORT_REGEX = re.compile(
     r'''^user_pref\("marionette.port", (\d+)\);$''', re.MULTILINE)
+
 
 class MarionetteException(Exception):
     def __init__(self, error):

@@ -9,7 +9,7 @@ git clone https://github.com/reinhrst/svg2png
 ```
 Alternatively, just download the `main.py` file from this repo.
 
-The path to FireFox is set up for MacOs; if you have something else, you need to change this in `main.py`.
+The path to FireFox is set up for MacOs; if you have something else, you need to change this in `main.py`, or put the path to the executable in the `FIREFOX_BIN` environment variable.
 
 This tool uses Firefox (though Marionette scripting) to convert SVG files to PNG.
 There are other tools out there to do a conversion, however in my experience, most tools have pretty lousy SVG support, especially when the going gets tough.
@@ -30,3 +30,23 @@ python main.py -w 1000px -h auto "file://$(pwd)/example.svg" /tmp/out.png
 
 Sets the width css property to `1000px`, and the height to `auto`.
 You can add arbitrary JavaScript by using the `--javascript` commandline option.
+
+
+Note that you can also render webpages as PNG:
+```
+python main.py https://blog.claude.nl/tech/using-a-go-library-fzf-lib-in-the-browser/ /tmp/out.png
+```
+
+
+## Running through Docker
+To run the tool in Docker, do:
+```
+git clone https://github.com/reinhrst/svg2png
+cd svg2png
+docker build -t svg2png .
+mkdir /tmp/data
+docker run -v /tmp/data:/data svg2png file:///app/example.svg /data/example.png
+open /tmp/data/example.png
+```
+
+In the unlikely event that you want to render other files than `example.svg` :), copy them to your `/tmp/data` dir, and use `file:///data/test/svg` as url.
