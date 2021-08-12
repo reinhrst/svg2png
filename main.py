@@ -90,13 +90,19 @@ class MarionetteConnection:
             "WebDriver:FindElements",{"using":"css selector","value":selector})
         return list(result[0].values())[0]
 
-    def takeScreenshotFromElement(self, element_id, output_png_filename):
-        result = self.send("WebDriver:TakeScreenshot",
-                           {"full": False, "highlights": [], "id": element_id})
-        pngdata = base64.b64decode(result["value"])
-        pathlib.Path(output_png_filename).write_bytes(pngdata)
-        logger.info("Written: %s, %d bytes", output_png_filename, len(pngdata))
-        logger.info("%s", subprocess.check_output(["file", output_png_filename]))
+    def printToPdf(
+            self,
+            output_pdf_filename,
+            landscape=False,
+            print_background=False,
+    ):
+        result = self.send(
+            "WebDriver:Print",
+            {"landscape": landscape, "printBackground": print_background})
+        pdfdata = base64.b64decode(result["value"])
+        pathlib.Path(output_pdf_filename).write_bytes(pdfdata)
+        logger.info("Written: %s, %d bytes", output_pdf_filename, len(pdfdata))
+        logger.info("%s", subprocess.check_output(["file", output_pdf_filename]))
 
     def end(self):
         self.send("Marionette:Quit", {"flags": ["eForceQuit"]})
@@ -143,16 +149,9 @@ def run(args):
                     break
             conn = MarionetteConnection("127.0.0.1", port)
             conn.navigateTo(args.input_url)
-            if args.width:
-                conn.executeJavascript(
-                    'document.querySelector(":root").style.width = %r' % args.width)
-            if args.height:
-                conn.executeJavascript(
-                    'document.querySelector(":root").style.height = %r' % args.height)
             if args.javascript:
                 conn.executeJavascript(args.javascript)
-            element_id = conn.findElementIdByCssSelector(":root")
-            conn.takeScreenshotFromElement(element_id, args.output_png_filename)
+            conn.printToPdf(args.output_pdf_filename)
             conn.end()
             try:
                 logger.info("waiting for firefox to quit")
@@ -170,13 +169,9 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument("--help", action="help")
-    parser.add_argument("--width", "-w",
-                        help="Set the width of the root element through CSS.")
-    parser.add_argument("--height", "-h",
-                        help="Set the height of the root element through CSS.")
     parser.add_argument("--javascript", "--js", help="Execute javascript.")
     parser.add_argument("input_url")
-    parser.add_argument("output_png_filename")
+    parser.add_argument("output_pdf_filename")
     run(parser.parse_args())
 
     logger.info("done")
