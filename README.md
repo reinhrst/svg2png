@@ -1,6 +1,6 @@
 # PrintPDF
 
-A tool to print a web page to PDF
+A tool to print a web page to PDF.
 Uses FireFox to do all the hard work.
 
 Read [this blog post](https://blog.claude.nl/tech/converting-svg-into-png/) for the process, and more info.
