@@ -3,6 +3,8 @@
 A tool to convert SVG (or any other component that a browser can show) into a PNG.
 Uses FireFox to do all the hard work.
 
+Read [this blog post](https://blog.claude.nl/tech/converting-svg-into-png/) for the process, and more info.
+
 ### Installation
 ```
 git clone https://github.com/reinhrst/svg2png
